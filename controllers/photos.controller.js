@@ -69,7 +69,7 @@ exports.vote = async (req, res) => {
       const findVote = findUser.votes.includes(photoToUpdate._id);
       if (findVote) {
         res.status(500).json({ message: 'You cannot vote twice' });
-      } else if (!findVote) {
+      } else {
         await Voter.findOneAndUpdate(
           { user: userIp },
           { $push: { votes: photoToUpdate._id } },
@@ -80,7 +80,7 @@ exports.vote = async (req, res) => {
           }
         );
       }
-    } else if (!findUser) {
+    } else {
       const newVoter = new Voter({
         user: userIp,
         $push: { votes: photoToUpdate._id },
